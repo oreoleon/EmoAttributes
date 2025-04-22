@@ -55,3 +55,7 @@ project.runtimeconfig.json
 
 # Others
 TestResults/
+
+# Build results
+bin/
+obj/
