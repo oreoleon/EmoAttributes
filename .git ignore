@@ -1,0 +1,57 @@
+# Build results
+bin/
+obj/
+out/
+
+# User-specific files
+*.user
+*.rsuser
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Rider (JetBrains)
+.idea/
+
+# VS Code
+.vscode/
+*.code-workspace
+
+# DotCover
+*.dotCover
+
+# Logs
+*.log
+
+# ASP.NET Scaffolding
+ScaffoldingReadMe.txt
+
+# Backup & temp files
+*~
+*.bak
+*.tmp
+
+# Package management
+packages/
+*.nupkg
+project.lock.json
+project.fragment.lock.json
+
+# .NET Core
+project.assets.json
+project.runtimeconfig.json
+*.deps.json
+*.runtimeconfig.dev.json
+*.runtimeconfig.json
+
+# NuGet
+*.snupkg
+*.symbols.nupkg
+.nuget/
+*.nupkg
+
+# Visual Studio cache
+.vs/
+
+# Others
+TestResults/
