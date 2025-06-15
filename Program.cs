@@ -1,29 +1,21 @@
+using EmoAttributes.Repositories;
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+// ✅ MVC (コントローラー + Razor Views) を使うために必要
 builder.Services.AddControllersWithViews();
+
+// ✅ リポジトリをDIに登録
+builder.Services.AddScoped<IEmoAttributesRepository, EmoAttributesRepository>();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-if (!app.Environment.IsDevelopment())
-{
-    app.UseExceptionHandler("/Home/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-    app.UseHsts();
-}
+// 静的ファイルやルーティングのミドルウェア（必要なら追加）
+app.UseStaticFiles();
 
-app.UseHttpsRedirection();
-app.UseRouting();
-
-app.UseAuthorization();
-
-app.MapStaticAssets();
-
+// ✅ ルート定義（Home/Index に飛ばす）
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}")
-    .WithStaticAssets();
-
+    pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.Run();

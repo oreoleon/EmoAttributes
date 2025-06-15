@@ -1,8 +1,29 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
-}
+﻿@model IEnumerable<EmoAttributes.Models.EmoAttribute>
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<h2>EmoAttributes</h2>
+
+<table>
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var emo in Model)
+        {
+            <tr>
+                <td>@emo.Id</td>
+                <td>@emo.Name</td>
+                <td>
+                    <a href="@Url.Action("Details", new { id = emo.Id })">Details</a> |
+                    <a href="@Url.Action("Edit", new { id = emo.Id })">Edit</a> |
+                    <a href="@Url.Action("Delete", new { id = emo.Id })">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<a href="@Url.Action("Create")">Create New</a>

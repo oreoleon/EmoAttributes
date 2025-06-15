@@ -1,31 +1,26 @@
-using System.Diagnostics;
+using EmoAttributes.Repositories;
 using Microsoft.AspNetCore.Mvc;
-using EmoAttributes.Models;
 
-namespace EmoAttributes.Controllers;
 
-public class HomeController : Controller
+namespace EmoAttributes.Controllers
 {
-    private readonly ILogger<HomeController> _logger;
-
-    public HomeController(ILogger<HomeController> logger)
+    [Route("home")]
+    public class HomeController : Controller
     {
-        _logger = logger;
-    }
+        private readonly IEmoAttributesRepository _repo;
 
-    public IActionResult Index()
-    {
-        return View();
-    }
+        // コンストラクタでリポジトリを注入
+        public HomeController(IEmoAttributesRepository repo)
+        {
+            _repo = repo;
+        }
 
-    public IActionResult Privacy()
-    {
-        return View();
-    }
-
-    [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-    public IActionResult Error()
-    {
-        return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        // Indexアクションで全てのEmoAttributeを取得
+        [Route("index")]
+        public IActionResult Index()
+        {
+            var emoAttributes = _repo.GetAll();
+            return View(emoAttributes);
+        }
     }
 }

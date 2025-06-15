@@ -1,0 +1,178 @@
+@model IEnumerable<EmoAttributes.Models.EmoAttribute>
+
+<html>
+<head>
+    <meta charset="utf-8" />
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            background-color: #ffff;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #skillForm {
+            display: flex;
+            flex-direction: column;
+            align-items: center; /* ←左右中央寄せ */
+            gap: 20px; /* ボタン同士の間も空けられる */
+            width: 100%;
+        }
+
+        .canvas {
+            width: 90vw;
+            height: 90vh;
+            display: flex; /* 横並びにする */
+            background-color: #fff;
+            border: 2px solid #ccc;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+        }
+
+        .skills-panel {
+            flex: 1; /* 左半分 */
+            background-color: rgba(255, 255, 255, 0.95);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 30px;
+            border-right: 2px solid #ccc;
+            gap: 20px;
+            height: 100%; 
+        }
+
+        .skills-panel button {
+            all: unset; 
+            width: 55rem;/* 親（skills-panel）の90%幅 */
+            height: 10rem; 
+            font-size: 2em;
+            font-weight: bold;
+            border: none;
+            border-radius: 16px;
+            background-color: #ffe082;
+            color: #333;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            margin-bottom: 3%;
+            display: flex;            /* ★追加 */
+            justify-content: center;  /* ★中央寄せ */
+            align-items: center;      /* ★上下中央寄せ */
+        }
+
+        .skills-panel button:hover {
+            background-color: #ffca28;
+            transform: scale(1.05);
+        }
+
+        .battle-field {
+            flex: 2; /* 右2/3 */
+            position: relative;
+            overflow: hidden;
+            background-color: #fafafa;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        .character-wrapper {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .character-wrapper.back {
+            top: 15%;
+            transform: translateX(-333%) scale(5);
+            z-index: 1;
+            opacity: 0.9;
+        }
+
+        .character-wrapper.front {
+            bottom: 27%;
+            transform: translateX(-50%) scale(6);
+            z-index: 2;
+        }
+
+        .character {
+            width: 200px;
+            height: auto;
+        }
+
+        .character-wrapper.back .character {
+            width: 120px;
+        }
+
+        .hp-bar {
+            width: 120px;
+            height: 16px;
+            background-color: #ddd;
+            border: 2px solid #555;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-top: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .hp-fill {
+            height: 100%;
+            background-color: #e53935;
+            transition: width 0.3s ease;
+        }
+
+    </style>
+    <script>
+    function submitSkill(skillNumber, enemy_hp) {
+        document.getElementById('skillNumber').value = skillNumber;
+        document.getElementById('enemyHp').value = enemy_hp;
+        document.getElementById('skillForm').submit();
+    }
+    </script>
+</head>
+<body>
+    <div class="canvas">
+        
+        <!-- 左側：スキルパネル -->
+        <div class="skills-panel">
+            <form id="skillForm" method="post" action="/command/damage">
+                <input type="hidden" name="skillNumber" id="skillNumber" />
+                <input type="hidden" name="enemyHp" id="enemyHp" />
+                
+                <button type="button" onclick="submitSkill(1, @ViewBag.enemy_hp)">技1</button>
+                <button type="button" onclick="submitSkill(2)">技2</button>
+                <button type="button" onclick="submitSkill(3)">@ViewBag.enemy_hp</button>
+            </form>
+        </div>
+        <!-- 右側：キャラバトルフィールド -->
+        <div class="battle-field">
+            <!-- キャラ奥 -->
+            <div class="character-wrapper back">
+                <img class="character" src="@Url.Content("~/images/enemy1.jpeg")" alt="キャラ（奥）" />
+                <div class="hp-bar">
+                    <div class="hp-fill" style="width: @ViewBag.enemy_hp%;"></div>
+                </div>
+            </div>
+
+            <!-- キャラ手前 -->
+            <div class="character-wrapper front">
+                <img class="character" src="@Url.Content("~/images/enemy2.jpeg")" alt="キャラ（手前）" />
+                <div class="hp-bar">
+                    <div class="hp-fill" style="width: 95%;"></div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</body>
+</html>
